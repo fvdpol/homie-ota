@@ -4,6 +4,7 @@
 __author__    = 'Jan-Piet Mens <jpmens()gmail.com> & Ben Jones'
 __copyright__ = 'Copyright 2016 Jan-Piet Mens'
 
+from gevent import monkey; monkey.patch_all() # pip install gevent
 # wget http://bottlepy.org/bottle.py
 # ... or ... pip install bottle
 from bottle import auth_basic, get, route, request, run, static_file, HTTPResponse, template, abort
@@ -674,7 +675,7 @@ if __name__ == '__main__':
     atexit.register(exitus)
 
     try:
-        run(host=OTA_HOST, port=OTA_PORT, debug=DEBUG)
+        run(host=OTA_HOST, port=OTA_PORT, debug=DEBUG, server='gevent')
     except KeyboardInterrupt:
         mqttc.loop_stop()
         mqttc.disconnect()
